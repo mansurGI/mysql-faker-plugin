@@ -1,0 +1,13 @@
+version: '3.1'
+
+name: mariadb_container
+
+services:
+  db:
+    image: mariadb_faker_development
+    container_name: database
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: test
+
+
