@@ -7,7 +7,7 @@ g++ -shared -I/usr/include/mysql -o faker.so main.cpp
 
 # move faker.so to mysql plugin dir
 # add function to mysql
-mysql "DROP FUNCTION IF EXISTIS faker;"
+mysql "DROP FUNCTION IF EXISTS faker;"
 mysql "CREATE FUNCTION faker RETURNS integer SONAME 'faker.so';"
 
 
