@@ -94,10 +94,10 @@ extern "C" char *faker(UDF_INIT *initid, UDF_ARGS *args, char *result, unsigned 
 		value = lastname[std::rand() % lastname.size()];
 	
 	if (args->args[0] == std::string("age"))
-		value = std::to_string(std::rand() % 90);
+		value = std::to_string(1 + std::rand() % 89);
 
 	if (args->args[0] == std::string("date")) {
-		value = std::to_string(1900 + std::rand() % 200) + "-" + std::to_string(std::rand() % 12) + "-" + std::to_string(std::rand() % 31);
+		value = std::to_string(1900 + std::rand() % 200) + "-" + std::to_string(1 + std::rand() % 11) + "-" + std::to_string(1 + std::rand() % 30);
 	}
 
 	if (args->args[0] == std::string("email"))
@@ -107,7 +107,7 @@ extern "C" char *faker(UDF_INIT *initid, UDF_ARGS *args, char *result, unsigned 
 		value = phone[std::rand() % phone.size()] + std::to_string(100 + std::rand() % 899) + std::to_string(100 + std::rand() % 899)  + std::to_string(10 + std::rand() % 89) + std::to_string(10 + std::rand() % 89);
 
 	if (args->args[0] == std::string("address"))
-		value = std::to_string(std::rand() % 200) + " " + street[std::rand() % street.size()] + ", " + city[std::rand() % city.size()]; 
+		value = std::to_string(1 + std::rand() % 200) + " " + street[std::rand() % street.size()] + ", " + city[std::rand() % city.size()]; 
 
 	if (args->args[0] == std::string("job"))
 		value = job[std::rand() % job.size()];
@@ -117,16 +117,18 @@ extern "C" char *faker(UDF_INIT *initid, UDF_ARGS *args, char *result, unsigned 
 	
 	if (args->args[0] == std::string("text") || args->args[0] == std::string("longtext")) {
 		int length = (args->args[0] == std::string("text")) ? 70 : 400;
+		
 		std::string word = text[std::rand() % text.size()];
   	word[0] = std::toupper(word[0]);
   	value += word;
-    	for (int i = 1; i < length; ++i) {
-      	word = text[std::rand() % text.size()];
-      	if (i % 6 == 0) {
-        	word[0] = std::toupper(word[0]);
-        	value += ". " + word;
-      	} else { value += " " + word; }
-    	}
+    
+		for (int i = 1; i < length; ++i) {
+    	word = text[std::rand() % text.size()];
+     	if (i % 6 == 0) {
+       	word[0] = std::toupper(word[0]);
+       	value += ". " + word;
+     	} else { value += " " + word; }
+   	}
   	value += ".";
 	}
 
@@ -134,9 +136,8 @@ extern "C" char *faker(UDF_INIT *initid, UDF_ARGS *args, char *result, unsigned 
 	if (args->args[0] == std::string("longtext")) {
 		value.copy(initid->ptr, value.size());
 		return initid->ptr;
-	} else {
-		value.copy(result, value.size());
-		return result;
 	}
-}
 
+	value.copy(result, value.size());
+	return result;
+}
